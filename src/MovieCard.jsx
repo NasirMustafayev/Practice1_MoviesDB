@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Typography, Chip } from '@mui/material'
 
 export default function MovieCard({ movie }){
 
@@ -15,11 +15,14 @@ export default function MovieCard({ movie }){
                 <Typography variant='h5'>
                     {movie.title}
                 </Typography>
+                    <Chip
+                    label={movie.vote_average}
+                    color={movie.vote_average >= 7 ? 'success' : movie.vote_average >= 5 ? 'warning' : 'error'}
+                    size="small"
+                    sx={{ mt: 1, mb: 1 }}
+                    />
                 <Typography variant='body2' color="text.secondary">
-                    Rating: {movie.vote_average}
-                </Typography>
-                <Typography variant='body2' color="text.secondary">
-                    Year: {movie.release_date}
+                    Released: {movie.release_date.slice(0,4)}
                 </Typography>
             </CardContent>
         </Card>

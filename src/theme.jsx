@@ -53,6 +53,27 @@ const theme = createTheme({
         },
       },
     },
+    ratingBadge: {
+      styleOverrides: {
+        root: {
+          display: "inline-block",
+          padding: "4px 8px",
+          borderRadius: 12,
+          color: "#fff",
+          fontWeight: 600,
+        },
+        green: {
+          backgroundColor: "#4CAF50", // Green for ratings 7 and above
+        },
+        yellow: {
+          backgroundColor: "#FFEB3B", // Yellow for ratings 5-6.9
+          color: "#000", // Dark text for better contrast
+        },
+        red: {
+          backgroundColor: "#F44336", // Red for ratings below 5
+        },
+      },
+    },
   },
 });
 
