@@ -1,17 +1,24 @@
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 
-export default function MovieCard(){
+export default function MovieCard({ movie }){
+
     return(
         <Card sx={{height:'100%'}}>
             <CardMedia
             component="img"
-            image="https://placehold.co/600x400"
-            alt="Placeholder"
+            image={movie.poster}
+            alt={movie.title}
             height={300}
             />
             <CardContent>
-                <Typography>
-                    Placeholder
+                <Typography variant='h5'>
+                    {movie.title}
+                </Typography>
+                <Typography variant='body2' color="text.secondary">
+                    Rating: {movie.rating}
+                </Typography>
+                <Typography variant='body2' color="text.secondary">
+                    Year: {movie.year}
                 </Typography>
             </CardContent>
         </Card>
