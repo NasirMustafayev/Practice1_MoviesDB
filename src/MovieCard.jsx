@@ -6,19 +6,20 @@ export default function MovieCard({ movie }){
         <Card sx={{height:'100%'}}>
             <CardMedia
             component="img"
-            image={movie.poster}
+            image={"https://image.tmdb.org/t/p/w500/" + movie.poster_path}
             alt={movie.title}
             height={300}
+            sx={{ objectFit: 'cover', objectPosition: 'top'}}
             />
             <CardContent>
                 <Typography variant='h5'>
                     {movie.title}
                 </Typography>
                 <Typography variant='body2' color="text.secondary">
-                    Rating: {movie.rating}
+                    Rating: {movie.vote_average}
                 </Typography>
                 <Typography variant='body2' color="text.secondary">
-                    Year: {movie.year}
+                    Year: {movie.release_date}
                 </Typography>
             </CardContent>
         </Card>
