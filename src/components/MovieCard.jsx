@@ -1,8 +1,12 @@
 import { Card, CardContent, CardMedia, Typography, Chip } from '@mui/material'
+import { Link } from 'react-router-dom'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import StarIcon from '@mui/icons-material/Star';
 
 export default function MovieCard({ movie }){
 
     return(
+        <Link to={`/movie/${movie.id}`}>
         <Card sx={{height:'100%'}}>
             <CardMedia
             component="img"
@@ -15,16 +19,18 @@ export default function MovieCard({ movie }){
                 <Typography variant='h5'>
                     {movie.title}
                 </Typography>
-                    <Chip
-                    label={movie.vote_average}
+                <Chip
+                    label=<><StarIcon sx={{ verticalAlign: 'middle', mr: 0.5 }} /> {movie.vote_average.toFixed(1)}</>
                     color={movie.vote_average >= 7 ? 'success' : movie.vote_average >= 5 ? 'warning' : 'error'}
                     size="small"
                     sx={{ mt: 1, mb: 1 }}
                     />
                 <Typography variant='body2' color="text.secondary">
-                    Released: {movie.release_date.slice(0,4)}
+                    <CalendarMonthIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                     {movie.release_date.slice(0,4)}
                 </Typography>
             </CardContent>
         </Card>
+        </Link>
     )
 }
