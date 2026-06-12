@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import LanguageIcon from "@mui/icons-material/Language";
+import GlobeIcon from "@mui/icons-material/Public";
 
 const api_key = import.meta.env.VITE_API_KEY
 
@@ -102,6 +104,16 @@ export default function MovieDetail(){
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                 <CalendarMonthIcon sx={{ color: "grey.400" }} />
                 <Typography color="grey.300">{movie.release_date}</Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <LanguageIcon sx={{ color: "grey.400" }} />
+                <Typography color="grey.300">{movie.original_language}</Typography>
+              </Box>
+
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <GlobeIcon sx={{ color: "grey.400" }} />
+                <Typography color="grey.300">{movie.production_countries?.[0]?.name || "N/A"}</Typography>
               </Box>
             </Box>
 
