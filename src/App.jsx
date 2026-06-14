@@ -10,22 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 
 function App() {
-  const statevalue = useSelector(state => state.simple);
   const themevalue = useSelector(state => state.theme);
   const dispatcher = useDispatch();
-
-  const [updateValue, setUpdateValue] = useState('')
 
   return(
     <ThemeProvider theme={themevalue ? themeDark : themeLight}>
     <CssBaseline/>
     <Navbar/>
-    State from Redux : {statevalue}
-    <button onClick={() => dispatcher({type: 'update'})}>Update simple state</button>
-    <br/>
-    <input value={updateValue} onChange={({ target: { value }}) => setUpdateValue(value)}/>
-    <button onClick={()=> dispatcher({type: 'update_by', payload : updateValue})}>Update with text</button>
-    <br/>
     <button onClick={() => dispatcher({type: 'dark'})}>Toggle Theme</button>
     <p>Current theme: {themevalue ? 'Dark' : 'Light'}</p>
     <Routes>
