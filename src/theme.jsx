@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material";
 
-const theme = createTheme({
+export const themeDark = createTheme({
   palette: {
     mode: "dark",
     primary: {
@@ -53,28 +53,64 @@ const theme = createTheme({
         },
       },
     },
-    ratingBadge: {
+
+  },
+});
+
+
+export const themeLight = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#000000", // Use black as primary for contrast
+    },
+    background: {
+      default: "#F5F5F5", // Light gray for a softer look
+      paper: "#FFFFFF",   // Pure white for cards
+    },
+    text: {
+      primary: "#333333",
+      secondary: "#666666",
+    },
+    divider: "rgba(0, 0, 0, 0.1)", // Subtle lines
+  },
+  typography: {
+    fontFamily: '"Inter", "system-ui", sans-serif',
+    h5: {
+      fontWeight: 700,
+      letterSpacing: "-0.02em",
+    },
+    body1: {
+      letterSpacing: "0.01em",
+    },
+  },
+  shape: {
+    borderRadius: 16,
+  },
+  components: {
+    MuiCard: {
       styleOverrides: {
         root: {
-          display: "inline-block",
-          padding: "4px 8px",
-          borderRadius: 12,
-          color: "#fff",
-          fontWeight: 600,
+          backgroundColor: "#FFFFFF",
+          border: "1px solid rgba(0, 0, 0, 0.08)",
+          boxShadow: "none",
+          transition: "border-color 0.2s ease",
+          "&:hover": {
+            borderColor: "rgba(0, 0, 0, 0.3)",
+          },
         },
-        green: {
-          backgroundColor: "#4CAF50", // Green for ratings 7 and above
-        },
-        yellow: {
-          backgroundColor: "#FFEB3B", // Yellow for ratings 5-6.9
-          color: "#000", // Dark text for better contrast
-        },
-        red: {
-          backgroundColor: "#F44336", // Red for ratings below 5
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: "none",
+          fontWeight: 500,
+          padding: "8px 16px",
         },
       },
     },
   },
 });
 
-export default theme;
