@@ -1,11 +1,21 @@
-import { AppBar, Toolbar } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export default function Footer() {
     return (
-        <AppBar position="static" color="primary" sx={{ top: 'auto', bottom: 0 }}>
-            <Toolbar>
-                <p style={{ margin: '0 auto' }}>© 2026 MovieDB. Nasir Mustafayev</p>
-            </Toolbar>
-        </AppBar>
+        <Box
+            component="footer"
+            sx={{
+                backgroundColor: 'background.paper',
+                borderTop: '1px solid',
+                borderColor: 'divider',
+                py: 2,
+                mt: 'auto',
+                textAlign: 'center',
+            }}
+        >
+            <Typography variant="body2" color="textSecondary">
+                © 2026 MovieDB. Nasir Mustafayev
+            </Typography>
+        </Box>
     );
 }

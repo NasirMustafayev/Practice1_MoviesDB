@@ -46,14 +46,21 @@ export const themeDark = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
           textTransform: "none",
-          fontWeight: 500,
-          padding: "8px 16px",
+          fontWeight: 600,
         },
       },
     },
-
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 8,
+            transition: "all 0.3s ease"
+          },
+        },
+      },
+    },
   },
 });
 
@@ -104,10 +111,18 @@ export const themeLight = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
           textTransform: "none",
-          fontWeight: 500,
-          padding: "8px 16px",
+          fontWeight: 600,
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 8,
+            transition: "all 0.3s ease",
+          },
         },
       },
     },

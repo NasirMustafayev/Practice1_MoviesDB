@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, Chip, Box, Divider } from "@mui/material";
+import { Container, Grid, Typography, Chip, Box, Divider, useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
@@ -12,6 +12,7 @@ const api_key = import.meta.env.VITE_API_KEY
 export default function MovieDetail(){
     const { movie_id } = useParams()
     const [movie, setMovie] = useState(null)
+    const theme = useTheme()
 
     const api_url = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}`
 
@@ -27,7 +28,8 @@ export default function MovieDetail(){
              <Box
       sx={{
         minHeight: "100vh",
-        background: `linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(20,20,20,1) 100%), url(https://image.tmdb.org/t/p/original${movie.backdrop_path}) no-repeat center center / cover`,
+        background: `linear-gradient(to bottom, ${theme.palette.background.default}dd 0%, ${theme.palette.background.paper}dd 100%), url(https://image.tmdb.org/t/p/original${movie.backdrop_path}) no-repeat center center / cover`,
+        backgroundColor: theme.palette.background.default,
         py: 6,
       }}
     >
@@ -53,7 +55,7 @@ export default function MovieDetail(){
             <Typography
               variant="h3"
               fontWeight={700}
-              color="white"
+              color="textPrimary"
               gutterBottom
             >
               {movie.title}
@@ -62,7 +64,7 @@ export default function MovieDetail(){
             {movie.tagline && (
               <Typography
                 variant="subtitle1"
-                color="grey.400"
+                color="textSecondary"
                 fontStyle="italic"
                 gutterBottom
               >
@@ -70,7 +72,7 @@ export default function MovieDetail(){
               </Typography>
             )}
 
-            <Divider sx={{ borderColor: "grey.700", my: 2 }} />
+            <Divider sx={{ borderColor: theme.palette.divider, my: 2 }} />
 
             {/* Genres */}
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
@@ -79,7 +81,7 @@ export default function MovieDetail(){
                   key={genre.id}
                   label={genre.name}
                   variant="outlined"
-                  sx={{ color: "white", borderColor: "grey.500" }}
+                  sx={{ color: theme.palette.text.primary, borderColor: theme.palette.divider }}
                 />
               ))}
             </Box>
@@ -88,44 +90,44 @@ export default function MovieDetail(){
             <Box sx={{ display: "flex", gap: 4, mb: 3, flexWrap: "wrap" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                 <StarIcon sx={{ color: "#f5c518" }} />
-                <Typography color="white" fontWeight={600}>
+                <Typography color="textPrimary" fontWeight={600}>
                   {movie.vote_average?.toFixed(1)}
                 </Typography>
-                <Typography color="grey.400" variant="body2">
+                <Typography color="textSecondary" variant="body2">
                   / 10
                 </Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <AccessTimeIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.runtime} min</Typography>
+                <AccessTimeIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.runtime} min</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <CalendarMonthIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.release_date}</Typography>
+                <CalendarMonthIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.release_date}</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <LanguageIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.original_language}</Typography>
+                <LanguageIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.original_language}</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <GlobeIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.production_countries?.[0]?.name || "N/A"}</Typography>
+                <GlobeIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.production_countries?.[0]?.name || "N/A"}</Typography>
               </Box>
             </Box>
 
-            <Divider sx={{ borderColor: "grey.700", my: 2 }} />
+            <Divider sx={{ borderColor: theme.palette.divider, my: 2 }} />
 
             {/* Overview */}
-            <Typography variant="h6" color="grey.300" gutterBottom>
+            <Typography variant="h6" color="textPrimary" gutterBottom>
               Overview
             </Typography>
             <Typography
               variant="body1"
-              color="grey.400"
+              color="textSecondary"
               lineHeight={1.8}
             >
               {movie.overview}
@@ -135,7 +137,7 @@ export default function MovieDetail(){
       </Container>
     </Box>
         ) : (
-            <Typography variant="h6" align="center" sx={{ mt: 4 }}>Loading...</Typography>
+            <Typography variant="h6" align="center" color="textPrimary" sx={{ mt: 4 }}>Loading...</Typography>
         )
     )
 }
