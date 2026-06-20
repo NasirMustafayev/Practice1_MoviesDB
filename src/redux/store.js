@@ -10,7 +10,9 @@ import { combineReducers, createStore } from "redux"
 //             return state
 //     }
 // }
-const initialLoginState =
+const initialLoginState = localStorage.getItem('login') ?
+JSON.parse(localStorage.getItem('login')) 
+:
  {
     isLogged: false,
     user: null
@@ -39,7 +41,8 @@ function loginReducer(state = initialLoginState, action){
         case 'LOGIN':
             return {isLogged: true, user: action.payload};
         case 'LOGOUT':
-            return initialLoginState;
+            localStorage.removeItem('login')
+            return {isLogged: false, user : null};
         default:
             return state;
     }

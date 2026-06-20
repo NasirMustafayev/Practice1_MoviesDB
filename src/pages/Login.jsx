@@ -14,9 +14,10 @@ export default function Login() {
 
     const handleLogin = (e)=> {
       e.preventDefault()
-
+      
         if (username == 'user' && password == 'user') {
             dispatcher({type: 'LOGIN', payload: username})
+            localStorage.setItem('login', JSON.stringify({isLogged: true, user: username}))
             navigate('/')
         }
         else{
