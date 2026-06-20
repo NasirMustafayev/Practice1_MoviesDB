@@ -10,6 +10,11 @@ import { combineReducers, createStore } from "redux"
 //             return state
 //     }
 // }
+const initialLoginState =
+ {
+    isLogged: false,
+    user: null
+}
 
 function themeReducer(state = true, action){
     switch (action.type) {
@@ -29,9 +34,21 @@ function moviesReducer(state = [], action) {
         }
 }
 
+function loginReducer(state = initialLoginState, action){
+    switch(action.type){
+        case 'LOGIN':
+            return {isLogged: true, user: action.payload};
+        case 'LOGOUT':
+            return initialLoginState;
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     // simple: simpleReducer,
     theme: themeReducer,
-    movies: moviesReducer
+    movies: moviesReducer,
+    login: loginReducer
 })
 export const store = createStore(rootReducer)

@@ -1,4 +1,4 @@
-import { Container, Grid, Typography, Chip, Box, Divider, useTheme } from "@mui/material";
+import { Container, Grid, Typography, Chip, Box, Divider, useTheme, CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
@@ -137,7 +137,7 @@ export default function MovieDetail(){
       </Container>
     </Box>
         ) : (
-            <Typography variant="h6" align="center" color="textPrimary" sx={{ mt: 4 }}>Loading...</Typography>
+            <Typography variant="h6" align="center" color="textPrimary" sx={{ mt: 4 }}><CircularProgress aria-label="Loading…" /></Typography>
         )
     )
 }

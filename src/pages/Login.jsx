@@ -1,7 +1,34 @@
 import { Container, Box, Typography, TextField, Button, Stack } from "@mui/material";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export default function Login() {
-  return (
+    const [username, setUserName] = useState()
+    const [password, setPassword] = useState()
+
+    const isLogged = useSelector(state => state.login.isLogged)
+    const dispatcher = useDispatch()
+  
+    const navigate = useNavigate()
+
+    const handleLogin = (e)=> {
+      e.preventDefault()
+
+        if (username == 'user' && password == 'user') {
+            dispatcher({type: 'LOGIN', payload: username})
+            navigate('/')
+        }
+        else{
+            
+        }
+    }
+
+    if (isLogged){
+      return <Navigate to='/'/>
+    }
+
+  return (  
     <Container maxWidth="xs">
       <Box sx={{ mt: 8 }}>
         <Box sx={{ textAlign: "center", mb: 4 }}>
@@ -12,20 +39,26 @@ export default function Login() {
               Sign in to your account
             </Typography>
           </Box>
-
-          <form>
+            <form onSubmit={handleLogin}>
             <Stack spacing={2}>
               <TextField
                 fullWidth
                 label="Username"
                 type="text"
                 variant="outlined"
+                
+                value={username}
+                onChange={({ target: {value}})=> setUserName(value)}
               />
               <TextField
                 fullWidth
                 label="Password"
                 type="password"
                 variant="outlined"
+                name="password"
+
+                value={password}
+                onChange={({ target: {value}}) => setPassword(value)}
               />
               <Button
                 fullWidth
@@ -38,7 +71,7 @@ export default function Login() {
                 Sign In
               </Button>
             </Stack>
-          </form>
+            </form>
       </Box>
     </Container>
   );
