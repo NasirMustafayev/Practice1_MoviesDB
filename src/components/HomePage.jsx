@@ -10,6 +10,7 @@ const api_url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${api_ke
 export default function HomePage(){
   //const [movies, setMovies] = useState([])
   const movies = useSelector(state => state.movies)
+  const isLogged = useSelector(state => state.login.isLogged)
   const watchlist = useSelector(state => state.watchlist)
 
   const filtered = movies.filter(movie=> watchlist.includes(movie.id))
@@ -34,7 +35,7 @@ export default function HomePage(){
 
     return(
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      { watchlist.length > 0 && (
+      { isLogged && watchlist.length > 0 && (
       <>
       <Typography variant='h5'>
         Watchlist
