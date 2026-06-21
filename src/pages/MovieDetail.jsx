@@ -1,11 +1,15 @@
-import { Container, Grid, Typography, Chip, Box, Divider, useTheme, CircularProgress } from "@mui/material";
+import { Container, Grid, Typography, Chip, Box, Divider, useTheme, CircularProgress, Button } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LanguageIcon from "@mui/icons-material/Language";
 import GlobeIcon from "@mui/icons-material/Public";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 const api_key = import.meta.env.VITE_API_KEY
 
@@ -13,6 +17,10 @@ export default function MovieDetail(){
     const { movie_id } = useParams()
     const [movie, setMovie] = useState(null)
     const theme = useTheme()
+
+    const isLogged = useSelector(state => state.login.isLogged)
+    const watchlist = useSelector(state => state.watchlist)
+    const dispatcher = useDispatch()
 
     const api_url = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}`
 
@@ -23,6 +31,16 @@ export default function MovieDetail(){
         .catch(err => console.error('Errors:', err))
     }, [movie_id])
 
+    const handleWatchList = ()=>{
+      watchlist.push(movie.id)
+      dispatcher({type: 'ADD', payload: movie.id})
+      localStorage.setItem('watchlist', JSON.stringify(watchlist))
+      alert("Added to Watchlist")
+    }
+    const handleRemoveWatchList = () => {
+      dispatcher({ type: 'REMOVE', payload: movie.id });
+    };
+    
     return(
         movie ? (
              <Box
@@ -34,7 +52,7 @@ export default function MovieDetail(){
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={5} alignItems="flex-start">
+        <Grid container spacing={5} sx= {{alignItems : "flex-start"}}>
 
           {/* LEFT — Poster */}
           <Grid size={{ xs: 12, md: 4 }}>
@@ -60,6 +78,24 @@ export default function MovieDetail(){
             >
               {movie.title}
             </Typography>
+
+            {isLogged ?
+              watchlist.includes(movie.id) ? (
+                <Button onClick={handleRemoveWatchList} variant="contained" color="error" startIcon={<RemoveIcon />}>
+                REMOVE FROM WATCHLIST
+                </Button>
+              ) : (
+              <Button onClick={handleWatchList} variant="contained" startIcon={<AddIcon />}>
+                ADD TO WATCHLIST
+                </Button>
+              ) : (
+              <>
+              <Button disabled>
+                <AddIcon/>ADD TO WATHCLIST
+              </Button>
+              Login to create Watchlist
+              </>
+              )}
 
             {movie.tagline && (
               <Typography
@@ -128,7 +164,7 @@ export default function MovieDetail(){
             <Typography
               variant="body1"
               color="textSecondary"
-              lineHeight={1.8}
+              sx={{ lineHeight: 1.8 }}
             >
               {movie.overview}
             </Typography>

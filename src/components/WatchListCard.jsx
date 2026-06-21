@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 
-export default function MovieCard({ movie }){
+export default function WatchListCard({ movie }){
 
     return(
         <Link to={`/movie/${movie.id}`}>
@@ -12,7 +12,7 @@ export default function MovieCard({ movie }){
             component="img"
             image={"https://image.tmdb.org/t/p/w500/" + movie.poster_path}
             alt={movie.title}
-            height={300}
+            height={100}
             sx={{ objectFit: 'cover', objectPosition: 'top'}}
             />
             <CardContent>
@@ -20,13 +20,13 @@ export default function MovieCard({ movie }){
                     {movie.title}
                 </Typography>
                 <Chip
-                    label=<><StarIcon sx={{ verticalAlign: 'middle', mr: 0.5 }} /> {movie.vote_average.toFixed(1)}</>
+                    label=<><StarIcon sx={{ verticalAlign: 'middle', mr: 0.5 }} /> {movie.vote_average?.toFixed(1)}</>
                     color={movie.vote_average >= 7 ? 'success' : movie.vote_average >= 5 ? 'warning' : 'error'}
                     size="small"
                     sx={{ mt: 1, mb: 1 }}
                     /> | 
                     <CalendarMonthIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                     {movie.release_date.slice(0,4)}
+                     {movie.release_date?.slice(0,4)}
             </CardContent>
         </Card>
         </Link>

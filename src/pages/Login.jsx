@@ -6,6 +6,7 @@ import { Link, useNavigate, Navigate } from "react-router-dom";
 export default function Login() {
     const [username, setUserName] = useState()
     const [password, setPassword] = useState()
+    const [error,setError] = useState(false)
 
     const isLogged = useSelector(state => state.login.isLogged)
     const dispatcher = useDispatch()
@@ -17,11 +18,10 @@ export default function Login() {
       
         if (username == 'user' && password == 'user') {
             dispatcher({type: 'LOGIN', payload: username})
-            localStorage.setItem('login', JSON.stringify({isLogged: true, user: username}))
             navigate('/')
         }
         else{
-            
+          setError(true)
         }
     }
 
@@ -39,6 +39,11 @@ export default function Login() {
             <Typography variant="body2" color="textSecondary">
               Sign in to your account
             </Typography>
+            {error && (
+              <Typography color="error">
+                Invalid credentials. Try again
+              </Typography>
+            )}
           </Box>
             <form onSubmit={handleLogin}>
             <Stack spacing={2}>
