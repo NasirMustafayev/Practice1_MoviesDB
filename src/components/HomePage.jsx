@@ -1,7 +1,8 @@
-import { useState, useEffect} from 'react'
+import { useEffect, useMemo} from 'react'
 import { Grid, Container, Typography } from '@mui/material';
-import MovieCard from './MovieCard';
 import { useDispatch, useSelector } from 'react-redux';
+import MovieCard from './MovieCard';
+import WatchListCard from './WatchListCard'
 
 const api_key = import.meta.env.VITE_API_KEY
 const api_url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${api_key}&language=en-US&page=1`
@@ -9,6 +10,11 @@ const api_url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${api_ke
 export default function HomePage(){
   //const [movies, setMovies] = useState([])
   const movies = useSelector(state => state.movies)
+  const isLogged = useSelector(state => state.login.isLogged)
+  const watchlist = useSelector(state => state.watchlist)
+
+  const filtered = useMemo(() => movies.filter(movie=> watchlist.includes(movie.id)), [movies,watchlist])
+
   const dispatcher = useDispatch()
 
   //Will work without useEffect but it will cause infinite loop of fetching data and updating state
@@ -29,6 +35,20 @@ export default function HomePage(){
 
     return(
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      { isLogged && watchlist.length > 0 && (
+      <>
+      <Typography variant='h5'>
+        Watchlist
+      </Typography>
+      <Grid container spacing={2}>
+        {filtered.map(movie => (
+        <Grid key={movie.id} size={{xs: 12, sm: 6, md: 3}} sx={{cursor : 'pointer'}}>
+          <WatchListCard movie={movie}/>
+        </Grid>
+        ))}
+      </Grid>
+      </>
+      )}
       <Typography variant="h5">
         Latest movies
       </Typography>

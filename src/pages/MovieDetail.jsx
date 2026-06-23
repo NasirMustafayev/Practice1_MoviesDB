@@ -1,17 +1,26 @@
-import { Container, Grid, Typography, Chip, Box, Divider } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Container, Grid, Typography, Chip, Box, Divider, useTheme, CircularProgress, Button } from "@mui/material";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LanguageIcon from "@mui/icons-material/Language";
 import GlobeIcon from "@mui/icons-material/Public";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 const api_key = import.meta.env.VITE_API_KEY
 
 export default function MovieDetail(){
     const { movie_id } = useParams()
     const [movie, setMovie] = useState(null)
+    const theme = useTheme()
+
+    const isLogged = useSelector(state => state.login.isLogged)
+    const watchlist = useSelector(state => state.watchlist)
+    const dispatcher = useDispatch()
 
     const api_url = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}`
 
@@ -22,17 +31,27 @@ export default function MovieDetail(){
         .catch(err => console.error('Errors:', err))
     }, [movie_id])
 
+    const handleAddWatchList = useCallback(()=>{
+      dispatcher({type: 'ADD', payload: movie.id})
+      alert("Added to Watchlist")
+    }, [movie?.id])
+
+    const handleRemoveWatchList = () => {
+      dispatcher({ type: 'REMOVE', payload: movie.id });
+    };
+    
     return(
         movie ? (
              <Box
       sx={{
         minHeight: "100vh",
-        background: `linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(20,20,20,1) 100%), url(https://image.tmdb.org/t/p/original${movie.backdrop_path}) no-repeat center center / cover`,
+        background: `linear-gradient(to bottom, ${theme.palette.background.default}dd 0%, ${theme.palette.background.paper}dd 100%), url(https://image.tmdb.org/t/p/original${movie.backdrop_path}) no-repeat center center / cover`,
+        backgroundColor: theme.palette.background.default,
         py: 6,
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={5} alignItems="flex-start">
+        <Grid container spacing={5} sx= {{alignItems : "flex-start"}}>
 
           {/* LEFT — Poster */}
           <Grid size={{ xs: 12, md: 4 }}>
@@ -53,16 +72,34 @@ export default function MovieDetail(){
             <Typography
               variant="h3"
               fontWeight={700}
-              color="white"
+              color="textPrimary"
               gutterBottom
             >
               {movie.title}
             </Typography>
 
+            {isLogged ?
+              watchlist.includes(movie.id) ? (
+                <Button onClick={handleRemoveWatchList} variant="contained" color="error" startIcon={<RemoveIcon />}>
+                REMOVE FROM WATCHLIST
+                </Button>
+              ) : (
+              <Button onClick={handleAddWatchList} variant="contained" startIcon={<AddIcon />}>
+                ADD TO WATCHLIST
+                </Button>
+              ) : (
+              <>
+              <Button disabled>
+                <AddIcon/>ADD TO WATHCLIST
+              </Button>
+              Login to create Watchlist
+              </>
+              )}
+
             {movie.tagline && (
               <Typography
                 variant="subtitle1"
-                color="grey.400"
+                color="textSecondary"
                 fontStyle="italic"
                 gutterBottom
               >
@@ -70,7 +107,7 @@ export default function MovieDetail(){
               </Typography>
             )}
 
-            <Divider sx={{ borderColor: "grey.700", my: 2 }} />
+            <Divider sx={{ borderColor: theme.palette.divider, my: 2 }} />
 
             {/* Genres */}
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
@@ -79,7 +116,7 @@ export default function MovieDetail(){
                   key={genre.id}
                   label={genre.name}
                   variant="outlined"
-                  sx={{ color: "white", borderColor: "grey.500" }}
+                  sx={{ color: theme.palette.text.primary, borderColor: theme.palette.divider }}
                 />
               ))}
             </Box>
@@ -88,45 +125,45 @@ export default function MovieDetail(){
             <Box sx={{ display: "flex", gap: 4, mb: 3, flexWrap: "wrap" }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                 <StarIcon sx={{ color: "#f5c518" }} />
-                <Typography color="white" fontWeight={600}>
+                <Typography color="textPrimary" fontWeight={600}>
                   {movie.vote_average?.toFixed(1)}
                 </Typography>
-                <Typography color="grey.400" variant="body2">
+                <Typography color="textSecondary" variant="body2">
                   / 10
                 </Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <AccessTimeIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.runtime} min</Typography>
+                <AccessTimeIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.runtime} min</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <CalendarMonthIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.release_date}</Typography>
+                <CalendarMonthIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.release_date}</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <LanguageIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.original_language}</Typography>
+                <LanguageIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.original_language}</Typography>
               </Box>
 
               <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-                <GlobeIcon sx={{ color: "grey.400" }} />
-                <Typography color="grey.300">{movie.production_countries?.[0]?.name || "N/A"}</Typography>
+                <GlobeIcon sx={{ color: theme.palette.text.secondary }} />
+                <Typography color="textPrimary">{movie.production_countries?.[0]?.name || "N/A"}</Typography>
               </Box>
             </Box>
 
-            <Divider sx={{ borderColor: "grey.700", my: 2 }} />
+            <Divider sx={{ borderColor: theme.palette.divider, my: 2 }} />
 
             {/* Overview */}
-            <Typography variant="h6" color="grey.300" gutterBottom>
+            <Typography variant="h6" color="textPrimary" gutterBottom>
               Overview
             </Typography>
             <Typography
               variant="body1"
-              color="grey.400"
-              lineHeight={1.8}
+              color="textSecondary"
+              sx={{ lineHeight: 1.8 }}
             >
               {movie.overview}
             </Typography>
@@ -135,7 +172,7 @@ export default function MovieDetail(){
       </Container>
     </Box>
         ) : (
-            <Typography variant="h6" align="center" sx={{ mt: 4 }}>Loading...</Typography>
+            <Typography variant="h6" align="center" color="textPrimary" sx={{ mt: 4 }}><CircularProgress aria-label="Loading…" /></Typography>
         )
     )
 }
