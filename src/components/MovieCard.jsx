@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { Card, CardContent, CardMedia, Typography, Chip } from '@mui/material'
 import { Link } from 'react-router-dom'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 
-export default function MovieCard({ movie }){
+function MovieCard({ movie }){
 
     return(
         <Link to={`/movie/${movie.id}`}>
@@ -32,3 +33,5 @@ export default function MovieCard({ movie }){
         </Link>
     )
 }
+
+export default memo(MovieCard)

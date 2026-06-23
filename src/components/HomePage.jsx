@@ -1,4 +1,4 @@
-import { useEffect} from 'react'
+import { useEffect, useMemo} from 'react'
 import { Grid, Container, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import MovieCard from './MovieCard';
@@ -13,7 +13,7 @@ export default function HomePage(){
   const isLogged = useSelector(state => state.login.isLogged)
   const watchlist = useSelector(state => state.watchlist)
 
-  const filtered = movies.filter(movie=> watchlist.includes(movie.id))
+  const filtered = useMemo(() => movies.filter(movie=> watchlist.includes(movie.id)), [movies,watchlist])
 
   const dispatcher = useDispatch()
 

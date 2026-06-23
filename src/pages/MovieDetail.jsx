@@ -1,5 +1,5 @@
 import { Container, Grid, Typography, Chip, Box, Divider, useTheme, CircularProgress, Button } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import StarIcon from "@mui/icons-material/Star";
@@ -31,12 +31,11 @@ export default function MovieDetail(){
         .catch(err => console.error('Errors:', err))
     }, [movie_id])
 
-    const handleWatchList = ()=>{
-      watchlist.push(movie.id)
+    const handleAddWatchList = useCallback(()=>{
       dispatcher({type: 'ADD', payload: movie.id})
-      localStorage.setItem('watchlist', JSON.stringify(watchlist))
       alert("Added to Watchlist")
-    }
+    }, [movie?.id])
+
     const handleRemoveWatchList = () => {
       dispatcher({ type: 'REMOVE', payload: movie.id });
     };
@@ -85,7 +84,7 @@ export default function MovieDetail(){
                 REMOVE FROM WATCHLIST
                 </Button>
               ) : (
-              <Button onClick={handleWatchList} variant="contained" startIcon={<AddIcon />}>
+              <Button onClick={handleAddWatchList} variant="contained" startIcon={<AddIcon />}>
                 ADD TO WATCHLIST
                 </Button>
               ) : (

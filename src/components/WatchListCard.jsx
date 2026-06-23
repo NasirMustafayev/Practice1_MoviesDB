@@ -1,10 +1,16 @@
-import { Card, CardContent, CardMedia, Typography, Chip } from '@mui/material'
+import { Card, CardContent, CardMedia, Typography, Chip, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { useDispatch } from 'react-redux';
 
 export default function WatchListCard({ movie }){
+    const dispatcher = useDispatch()
 
+    const handleRemoveWatchList = () => {
+      dispatcher({ type: 'REMOVE', payload: movie.id });
+    };
     return(
         <Link to={`/movie/${movie.id}`}>
         <Card sx={{height:'100%'}}>
@@ -27,6 +33,7 @@ export default function WatchListCard({ movie }){
                     /> | 
                     <CalendarMonthIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
                      {movie.release_date?.slice(0,4)}
+                     <Button onClick={handleRemoveWatchList} variant="contained" color="error" startIcon={<RemoveIcon />}/>
             </CardContent>
         </Card>
         </Link>
