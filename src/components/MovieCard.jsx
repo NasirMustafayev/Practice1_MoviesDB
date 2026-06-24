@@ -5,7 +5,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 
 function MovieCard({ movie }){
-
+//if you don't use React.memo for this function, it will rendered again and again when parent state change.
+// Thats means in every theme switch
+//console.log('RENDER')
     return(
         <Link to={`/movie/${movie.id}`}>
         <Card sx={{height:'100%'}}>

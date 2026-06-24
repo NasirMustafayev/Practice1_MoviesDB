@@ -4,8 +4,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import StarIcon from '@mui/icons-material/Star';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch } from 'react-redux';
+import { memo } from 'react';
 
-export default function WatchListCard({ movie }){
+function WatchListCard({ movie }){
+//if you don't use React.memo for this function, it will rendered again and again when parent state change.
+// Thats means in every theme switch
+// console.log("RENDER")
     const dispatcher = useDispatch()
 
     const handleRemoveWatchList = () => {
@@ -39,3 +43,5 @@ export default function WatchListCard({ movie }){
         </Link>
     )
 }
+
+export default memo(WatchListCard)
