@@ -3,20 +3,20 @@ import { Grid, Container, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import MovieCard from './MovieCard';
 import WatchListCard from './WatchListCard'
+import { RootState } from '../redux/store';
 
-const api_key = import.meta.env.VITE_API_KEY
+const api_key = (import.meta as any).env.VITE_API_KEY
 const api_url = `https://api.themoviedb.org/3/movie/now_playing?api_key=${api_key}&language=en-US&page=1`
 
 export default function HomePage(){
   //const [movies, setMovies] = useState([])
-  const movies = useSelector(state => state.movies)
-  const isLogged = useSelector(state => state.login.isLogged)
-  const watchlist = useSelector(state => state.watchlist)
+  const movies = useSelector((state: RootState) => state.movies)
+  const isLogged = useSelector((state: RootState) => state.login.isLogged)
+  const watchlist = useSelector((state: RootState) => state.watchlist)
 
-  const filtered = useMemo(() => movies.filter(movie=> watchlist.includes(movie.id)), [movies,watchlist])
+  const filtered = useMemo(() => movies.filter(movie => watchlist.includes(movie.id)), [movies,watchlist])
 
   const dispatcher = useDispatch()
-
   //Will work without useEffect but it will cause infinite loop of fetching data and updating state
   //You can try to remove useEffect and see the console, you will see that it is fetching data and updating state infinitely
   // useEffect(() => {

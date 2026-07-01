@@ -2,18 +2,19 @@ import { Container, Box, Typography, TextField, Button, Stack } from "@mui/mater
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import { RootState } from "../redux/store";
 
 export default function Login() {
-    const [username, setUserName] = useState()
-    const [password, setPassword] = useState()
-    const [error,setError] = useState(false)
+    const [username, setUserName] = useState<string>('')
+    const [password, setPassword] = useState<string>()
+    const [error,setError] = useState<boolean>(false)
 
-    const isLogged = useSelector(state => state.login.isLogged)
+    const isLogged = useSelector((state: RootState) => state.login.isLogged)
     const dispatcher = useDispatch()
   
     const navigate = useNavigate()
 
-    const handleLogin = (e)=> {
+    const handleLogin = (e: any)=> {
       e.preventDefault()
       
         if (username == 'user' && password == 'user') {

@@ -10,16 +10,14 @@ import { combineReducers, createStore } from "redux"
 //             return state
 //     }
 // }
-const initialLoginState = localStorage.getItem('login') ?
-JSON.parse(localStorage.getItem('login')) 
-:
- {
+const loginStorage = localStorage.getItem('login')
+const initialLoginState = loginStorage ? JSON.parse(loginStorage) : {
     isLogged: false,
     user: null
 }
 
-const initialWatchListState = localStorage.getItem('watchlist') ?
-JSON.parse(localStorage.getItem('watchlist')): []
+const watchlistStorage = localStorage.getItem('watchlist')
+const initialWatchListState = watchlistStorage ? JSON.parse(watchlistStorage) : []
 
 function themeReducer(state = true, action){
     switch (action.type) {
@@ -59,7 +57,7 @@ function watchlistReducer(state = initialWatchListState, action){
             localStorage.setItem('watchlist', JSON.stringify(updated));
             return updated
         case 'REMOVE':
-            const removed = state.filter(id => id !== action.payload);
+            const removed = state.filter((id: any) => id !== action.payload);
             localStorage.setItem('watchlist', JSON.stringify(removed));
             return removed
         default:
@@ -74,4 +72,7 @@ const rootReducer = combineReducers({
     login: loginReducer,
     watchlist: watchlistReducer
 })
+
+export type RootState = ReturnType<typeof rootReducer>
+
 export const store = createStore(rootReducer)

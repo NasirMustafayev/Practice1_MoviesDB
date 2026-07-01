@@ -9,6 +9,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import GlobeIcon from "@mui/icons-material/Public";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { RootState } from "../redux/store";
 
 
 const api_key = import.meta.env.VITE_API_KEY
@@ -18,8 +19,8 @@ export default function MovieDetail(){
     const [movie, setMovie] = useState(null)
     const theme = useTheme()
 
-    const isLogged = useSelector(state => state.login.isLogged)
-    const watchlist = useSelector(state => state.watchlist)
+    const isLogged = useSelector((state: RootState) => state.login.isLogged)
+    const watchlist = useSelector((state: RootState) => state.watchlist)
     const dispatcher = useDispatch()
 
     const api_url = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${api_key}`

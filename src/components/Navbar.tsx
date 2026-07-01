@@ -1,10 +1,11 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RootState } from "../redux/store";
 
 export default function Navbar() {
-  const isLogged = useSelector(state => state.login.isLogged)
-  const username = useSelector(state => state.login.user)
+  const isLogged = useSelector((state: RootState) => state.login.isLogged)
+  const username = useSelector((state: RootState) => state.login.user)
 
   const dispatcher = useDispatch()
   return (
